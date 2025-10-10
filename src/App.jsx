@@ -5,8 +5,10 @@ import './App.css';
 const categories = [
   'Historie',
   'Věda',
-  'Sport',
-  'Zábava',
+  'Zeměpis',
+  'Bizár CZ/SK',
+  'Příroda',
+  'Potřebuju body',
   // Přidejte další kategorie...
 ];
 
@@ -16,27 +18,188 @@ const questions = {
     'Kdy byla bitva na Bílé hoře?',
     'Kdo byl první prezident ČSR?',
     'Ve kterém roce začala 2. světová válka?',
-    // Přidejte další otázky...
+    'Kdo byl poslední český král?',
+    'Kdo byl poslední korunovaný český král?',
+    'Kdo byl první český král?',
+    'Mezi jakými roky proběhla 1. světová válka?',
+    'Mezi jakými roky proběhla 2. světová válka?',
+    'Kdo byl zavražděn v Sarajevu roku 1914?',
+    'Jak se jmenoval německý generál zvaný „Pouštní liška“?',
+    'Kdo byl nejdéle vládnoucím králem v historii Evropy?',
+    'Jak se jmenoval poslední absolutistický vládce Japonska?',
+    'Kdy vznikla první Československá republika?',
+    'Co je to Zlatá bula sicilská a kdy byla vydána?',
+    'Kdo měl přezdívku „Noční můra Evropy“?',
+    'Jak se jmenoval poslední císař Francie?',
+    'Kdy vzniklo Německo?',
+    'Kdy vznikla Itálie?',
+    'Který stát sjednotil Německo?',
+    'Který stát sjednotil Itálii?',
+    'Co byla rekonkvista?',
+    'Kdo byl nejdéle vládnoucím českým králem?',
+    'Který politik chtěl, aby bylo Československo monarchií s ruským carem v čele?',
+    'Kdo byl poslední ruský car?',
+    'Jak se jmenovaly série válek které Čínu uvedlo vobdobí zvané "století ponížení"?',
+
   ],
+
   'Věda': [
     'Co je fotosyntéza?',
     'Kdo objevil gravitaci?',
     'Jaká je chemická značka vody?',
-    // Přidejte další otázky...
+    'Kdo objevil teorii relativity?',
+    'Kdo vynalezl žárovku?',
+    'Kdo popsal strukturu DNA?',
+    'Kdo byl první člověk ve vesmíru?',
+    'Kdo byl první člověk na Měsíci?',
+    'Jaký prvek má chemickou značku O?',
+    'Co je to H₂O?',
+    'Kdo sestavil periodickou tabulku prvků?',
+    'Kdo vynalezl penicilin?',
+    'Kdo vynalezl rádio?',
+    'Co měří teploměr?',
+    'Co měří barometr?',
+    'Co studuje biologie?',
+    'Co studuje fyzika?',
+    'Co studuje chemie?',
+    'Jaký je největší orgán lidského těla?',
+    'Kolik planet má sluneční soustava?',
+    'Která planeta je nejblíže Slunci?',
+    'Co je to DNA?',
+    'Jak vyrobím louč?',
+    'Co je to mykologie?',
+    'Co se málo ví o Teslovi?',
+    
   ],
-  'Sport': [
-    'Kolik hráčů je ve fotbalovém týmu?',
-    'Kdo vyhrál MS ve fotbale 2018?',
-    'Jak dlouhá je maraton?',
-    // Přidejte další otázky...
+
+  'Zeměpis': [
+    'Nejvyšší hora ČR',
+    'Hlavní město Estonska',
+    'Hlavní město Islandu',
+    'Nejvyšší hora Evropy',
+    'Kolik států má Evropa?',
+    'Kolik států má USA?',
+    'Největší stát světa',
+    'Nejmenší stát světa',
+    'Nejdelší řeka světa',
+    'Největší ostrov světa',
+    'Nejhlubší jezero světa',
+    'Který stát má nejvíc obyvatel?',
+    'Který stát má největší hustotu zalidnění?',
+    'Jaké moře omývá Itálii?',
+    'Jaké pohoří odděluje Evropu a Asii?',
+    'Jak se jmenuje hlavní město Kanady?',
+    'Jak se jmenuje hlavní město Brazílie?',
+    'Jaké je hlavní město Austrálie?',
+    'Jaké je největší město světa podle populace?',
+    'Jaký kontinent má nejvíce států?',
+    'Který oceán je největší?',
+    'Ke se Baskicko nachází?',
+    'Jakými jazyky se mluví ve Švýcarsku?',
+    'Jakými jazyky se mluví v Belgii?',
+    'Úřední jazyk Vatikánu?',
+    
   ],
-  'Zábava': [
-    'Kdo hrál Harryho Pottera?',
-    'Jak se jmenuje hlavní postava v Simpsonových?',
-    'Kdo zpívá píseň "Imagine"?',
-    // Přidejte další otázky...
+
+  'Bizár CZ/SK': [
+    'Co Václav Klaus označil jako "levičácký dopravní prostředek"?',
+    'Jak zněla celá hláška dnes známá jako flákanec politika Lubomíra Volného?',
+    'Jak se přezdívalo Václavu Klausovi po pokusu ukrást pero osázené diamanty?',
+    'Jak nazvala Jana Maláčová otázku "jak na to vezmeme"?',
+    'Jak se jmenovala žena, která uvízla pod kořenem celým jménem?',
+    'Kdo prohlásil větu "Pořád jste sympatičtější než Jirka Paroubek"?',
+    'Kdo v televizní debatě ztratil botu?',
+    'Jak pokračuje věta "já mám právo..."?',
+    'Jaké bylo jméno komunistky, které to bohužel nestačilo?',
+    'Jak se jmenuje píseň, na kterou tancoval Andrej Babiš po výhře ve volbách 2025?',
+    'Jak zněla odpověď Andreje Babiše na otázku "Kde jste ty peníze vzal"?',
+    'Jak se jmenoval politik, který ve sněmovně prohlásil "Cikáni by měli být trestně odpovědní už od narození..."?',
+    'Odkud pochází hláška "Jste si to vymačkal, vás zbiju ještě"?',
+    'Komu koupili přátelé k Vánocům mobil Aligátor?',
+    'Jak se jmenovala žena, kterou málem srazili cyklisti?',
+    'Žena si myslela, že je reinkarnací koho?',
+    'Kdo je autorem slov "hodně budeš někde"?',
+    'Který politik lhal o tom, že jede na dálnici v Německu, ale jel v Česku?',
+    'Který slovenský politik, aby ukázal sílu, rozstřílel ve videu televizor brokovnicí?',
+    'Jaký nástroj využívá pan Cibulka k identifikaci agentů KGB a GRU?',
+    'Jaké dva tajné spolky ovládají naši společnost a vidí to jen jeden vyvolený muž?',
+    'Jak reagoval pan Cibulka, když mu pan Paroubek skákal do řeči?',
+    'Kam jsem dal řetízek?',
+    'Jak moc je svarovy?',
+    'Co se spívá v písničce od řezníka "Každej komouš"?',
   ],
-  // Přidejte další kategorie...
+
+  'Příroda': [
+    'Jaký je největší savec na Zemi?',
+    'Jaký je nejrychlejší suchozemský živočich?',
+    'Které zvíře je symbolem Austrálie?',
+    'Jaký pták neumí létat, ale umí plavat?',
+    'Jaké zvíře je považováno za nejchytřejší savce po člověku?',
+    'Která rostlina je největší na světě?',
+    'Jak se nazývá proces, při kterém se housenka mění v motýla?',
+    'Které zvíře má nejdelší život?',
+    'Která ryba je největší na světě?',
+    'Největší paryba na světě?',
+    'Jak se nazývá samice jelena?',
+    'Jak se nazývá mládě koně?',
+    'Jak se nazývá rostlina, která chytá hmyz?',
+    'Jak se jmenuje největší kočkovitá šelma?',
+    'Který kontinent má nejvíce deštných pralesů?',
+    'Jak se nazývá místo, kde včely žijí?',
+    'Které zvíře umí měnit barvu podle prostředí?',
+    'Jaký je hlavní zdroj kyslíku na Zemi?',
+    'Jaký živočich dokáže přežít i ve vesmíru?',
+    'Jak se nazývá proces, kdy stromy na podzim shazují listy?',
+    'Jaký je největší druh medvěda na světě?',
+    'Kolik nohou má stonožka?',
+    'Když budeš žrát sirové maso dostaneš?',
+    'Co je to fotosyntéza?',
+    'Co je to depresní kužel?',
+
+  ],
+
+  'Potřebuju body': [
+    'Máš radši kočky nebo psy?',
+    'Máš radši kávu nebo čaj?',
+    'Která kniha tě nejvíc ovlivnila?',
+    'Nejvíc ZALOŽNÁ země dnes?',
+    'Jak vyřešit blízký východ?',
+    'Máš alobalovou čepici?',
+    'Řekni mi upřímně, proč ne?',
+    'Názor na černochy?',
+    'Kolik mám nohou?',
+    'Kolik má noha židlí?',
+    'Je Luko psychopat?',
+    'Nejlepší forma vlády',
+    'Skákal pes přes oves...',
+    'Skákal pes přes oves?',
+    'Co si myslím o EU?',
+    'Kdo nebo co je to Enďucha?',
+    'Jak porazit Ondřeje v debatě?',
+    'Proč je Ondřej tak tvrdohlavej?',
+    'Má Luko HIV?',
+    'Přistáli jsme na měsíci?',
+    'Byli jsme a budem! kdo je autorem této věty?',
+    'Jak se jmenuje hlavní město Francie?',
+    'Kdo napsal knihu "1984"?',
+    'Kdo namaloval "Mona Lisu"?',
+    'Kdo napsal "Hamleta"?',
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+  ],
+
 };
 
 function App() {
