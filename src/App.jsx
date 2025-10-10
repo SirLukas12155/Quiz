@@ -247,14 +247,14 @@ function App() {
                 ))}
               </div>
               <button className="button button-large" onClick={confirmPlayers}>
-                ▶️ Začít hru
+                ZAČÍT HRU
               </button>
             </div>
           )}
           
           {step === 1 && (
             <div className="category-section fade-in">
-              <h2 className="category-title"> Vyberte kategorii</h2>
+              <h2 className="category-title"> VYBER KATEGORII</h2>
               <p className="turn-indicator">
                 Otázku vybírá: <strong>{playerNames[currentPlayer]}</strong>
               </p>
