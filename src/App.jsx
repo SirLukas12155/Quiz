@@ -226,7 +226,7 @@ function App() {
   }, []);
 
   const handlePlayerCount = (e) => {
-    const count = Math.max(1, Math.min(8, Number(e.target.value)));
+    const count = Math.max(1, Math.min(12, Number(e.target.value)));
     setPlayerCount(count);
     setPlayerNames(Array(count).fill('').map((_, i) => playerNames[i] || `Hráč ${i+1}`));
     setScores(Array(count).fill(0).map((_, i) => scores[i] || 0));
@@ -384,13 +384,13 @@ function App() {
         <>
           {step === 0 && (
             <div className="setup-section fade-in">
-              <h2 className="setup-title">⚙️ Nastavení hry</h2>
+              <h2 className="setup-title"> Nastavení hry</h2>
               <div className="player-count-selector">
-                <label>Počet hráčů (1-8):</label>
+                <label>Počet hráčů (1-12):</label>
                 <input 
                   type="number" 
                   min={1} 
-                  max={8} 
+                  max={12} 
                   value={playerCount} 
                   onChange={handlePlayerCount}
                   className="number-input"
@@ -399,7 +399,7 @@ function App() {
               <div className="setup-players">
                 {Array(playerCount).fill('').map((_, i) => (
                   <div key={i} className="player-input fade-in" style={{animationDelay: `${i * 0.1}s`}}>
-                    <label>🎮 Hráč {i+1}:</label>
+                    <label> Hráč {i+1}:</label>
                     <input 
                       type="text" 
                       value={playerNames[i] || ''} 
