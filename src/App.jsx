@@ -1,8 +1,7 @@
-
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import './App.css';
 
-// Zde upravujete kategorie (přidávejte další do pole)
+// === ZDE UPRAVUJETE KATEGORIE ===
 const categories = [
   'Historie',
   'Věda',
@@ -11,7 +10,7 @@ const categories = [
   // Přidejte další kategorie...
 ];
 
-// Zde zadáváte otázky ke kategoriím (přidávejte další otázky do pole dané kategorie)
+// === ZDE ZADÁVÁTE OTÁZKY KE KATEGORIÍM ===
 const questions = {
   'Historie': [
     'Kdy byla bitva na Bílé hoře?',
@@ -50,14 +49,19 @@ function App() {
   const [questionIdx, setQuestionIdx] = useState(null);
   const [timeLeft, setTimeLeft] = useState(30);
   const timerRef = useRef(null);
-  // Stav otázek: správně zodpovězené, vybrané, nezodpovězené
-  const [answeredQuestions, setAnsweredQuestions] = useState({}); // { [category]: [true/false/null] }
-  const [pendingQuestions, setPendingQuestions] = useState({}); // { [category]: [true/false] }
+  const [answeredQuestions, setAnsweredQuestions] = useState({});
+  const [pendingQuestions, setPendingQuestions] = useState({});
   const [gameFinished, setGameFinished] = useState(false);
+  const [showFeedback, setShowFeedback] = useState(false);
+  const [lastAnswerCorrect, setLastAnswerCorrect] = useState(null);
 
-  // Zadání počtu hráčů a jmen
+  // Cleanup časovače
+  useEffect(() => {
+    return () => {
+      if (timerRef.current) clearInterval(timerRef.current);
+    };
+  }, []);
 
-  // Zadání počtu hráčů a jmen
   const handlePlayerCount = (e) => {
     const count = Math.max(1, Math.min(8, Number(e.target.value)));
     setPlayerCount(count);
@@ -71,9 +75,7 @@ function App() {
     setPlayerNames(names);
   };
 
-  // Potvrzení hráčů
   const confirmPlayers = () => {
-    // Inicializace stavu otázek pro všechny kategorie
     const initialAnswered = {};
     const initialPending = {};
     categories.forEach(cat => {
@@ -85,13 +87,10 @@ function App() {
     setStep(1);
   };
 
-  // Výběr kategorie
   const selectCategory = (cat) => {
-    // Pokud už v kategorii došly otázky, nevybírej ji
     if (isCategoryFinished(cat)) return;
     setCategory(cat);
     setStep(2);
-    // Inicializace stavu otázek pokud není
     if (!answeredQuestions[cat]) {
       setAnsweredQuestions(prev => ({ ...prev, [cat]: Array(questions[cat].length).fill(null) }));
     }
@@ -100,12 +99,12 @@ function App() {
     }
   };
 
-  // Výběr otázky
   const selectQuestion = (idx) => {
+    if (answeredQuestions[category]?.[idx] !== null) return;
+    
     setQuestionIdx(idx);
     setTimeLeft(30);
     setStep(3);
-    // Označ otázku jako "pending"
     setPendingQuestions(prev => {
       const updated = { ...prev };
       updated[category][idx] = true;
@@ -123,17 +122,20 @@ function App() {
     }, 1000);
   };
 
-  // Odpověď hráče
   const handleAnswer = (correct) => {
     if (timerRef.current) clearInterval(timerRef.current);
+    
+    setLastAnswerCorrect(correct);
+    setShowFeedback(true);
+    
     const newScores = [...scores];
     if (correct) newScores[currentPlayer] += 1;
     setScores(newScores);
-    // Označ otázku jako zodpovězenou
+    
     setAnsweredQuestions(prev => {
       const updated = { ...prev };
       updated[category][questionIdx] = correct ? true : false;
-      // Kontrola zda je konec hry (všechny otázky ve všech kategoriích mají hodnotu true nebo false)
+      
       let allAnswered = true;
       for (const cat of categories) {
         if (!updated[cat]) continue;
@@ -145,150 +147,272 @@ function App() {
       if (allAnswered) setGameFinished(true);
       return updated;
     });
-    // Odznač "pending"
+    
     setPendingQuestions(prev => {
       const updated = { ...prev };
       updated[category][questionIdx] = false;
       return updated;
     });
-    setCurrentPlayer((currentPlayer + 1) % playerNames.length);
-    setStep(1); // zpět na výběr kategorie
-    setCategory(null);
-    setQuestionIdx(null);
-    setTimeLeft(30);
+    
+    setTimeout(() => {
+      setShowFeedback(false);
+      setCurrentPlayer((currentPlayer + 1) % playerNames.length);
+      setStep(1);
+      setCategory(null);
+      setQuestionIdx(null);
+      setTimeLeft(30);
+    }, 1500);
   };
-  // Pomocná funkce: je kategorie hotová?
+
   function isCategoryFinished(cat) {
     if (!answeredQuestions[cat]) return false;
     return answeredQuestions[cat].every(val => val !== null);
   }
 
-  // UI
+  const getQuestionStatus = (cat, idx) => {
+    const answered = answeredQuestions[cat]?.[idx];
+    const pending = pendingQuestions[cat]?.[idx];
+    
+    if (answered === true) return 'correct';
+    if (answered === false) return 'wrong';
+    if (pending) return 'pending';
+    return 'available';
+  };
+
+  const getTotalQuestions = () => {
+    return categories.reduce((sum, cat) => sum + (questions[cat]?.length || 0), 0);
+  };
+
+  const getAnsweredCount = () => {
+    let count = 0;
+    categories.forEach(cat => {
+      if (answeredQuestions[cat]) {
+        count += answeredQuestions[cat].filter(val => val !== null).length;
+      }
+    });
+    return count;
+  };
+
   return (
     <div className="quiz-app show-style">
-      <h1 className="main-title">VELKÉ SPOLEČENSKÉ HRY SPOLEČENSTVÍ</h1>
-      {!gameFinished && <PlayerOverview names={playerNames} scores={scores} current={currentPlayer} />}
+      <h1 className="main-title">VELKÝ SPOLEČENSKÝ QUIZ PRO SLOPEČENSTVÍ</h1>
+      
+      {!gameFinished && step > 0 && (
+        <div className="game-progress">
+          <div className="progress-text">
+            Zodpovězeno: {getAnsweredCount()} / {getTotalQuestions()} otázek
+          </div>
+          <div className="progress-bar">
+            <div 
+              className="progress-fill" 
+              style={{ width: `${(getAnsweredCount() / getTotalQuestions()) * 100}%` }}
+            />
+          </div>
+        </div>
+      )}
+      
+      {!gameFinished && step > 0 && (
+        <PlayerOverview names={playerNames} scores={scores} current={currentPlayer} />
+      )}
+      
       {gameFinished ? (
         <FinalResults names={playerNames} scores={scores} />
       ) : (
         <>
           {step === 0 && (
-            <div className="setup-section">
-              <h2 className="setup-title">Zadejte počet hráčů</h2>
-              <input type="number" min={1} max={8} value={playerCount} onChange={handlePlayerCount} />
+            <div className="setup-section fade-in">
+              <h2 className="setup-title">⚙️ Nastavení hry</h2>
+              <div className="player-count-selector">
+                <label>Počet hráčů (1-8):</label>
+                <input 
+                  type="number" 
+                  min={1} 
+                  max={8} 
+                  value={playerCount} 
+                  onChange={handlePlayerCount}
+                  className="number-input"
+                />
+              </div>
               <div className="setup-players">
                 {Array(playerCount).fill('').map((_, i) => (
-                  <div key={i} className="player-input">
-                    <label>Jméno hráče {i+1}: </label>
-                    <input type="text" value={playerNames[i] || ''} onChange={e => handlePlayerName(i, e.target.value)} />
+                  <div key={i} className="player-input fade-in" style={{animationDelay: `${i * 0.1}s`}}>
+                    <label>🎮 Hráč {i+1}:</label>
+                    <input 
+                      type="text" 
+                      value={playerNames[i] || ''} 
+                      onChange={e => handlePlayerName(i, e.target.value)}
+                      placeholder={`Zadejte jméno hráče ${i+1}`}
+                    />
                   </div>
                 ))}
               </div>
-              <button className="button" onClick={confirmPlayers}>Potvrdit hráče</button>
+              <button className="button button-large" onClick={confirmPlayers}>
+                ▶️ Začít hru
+              </button>
             </div>
           )}
+          
           {step === 1 && (
-            <div className="category-section">
-              <h2 className="category-title">Vyberte kategorii</h2>
+            <div className="category-section fade-in">
+              <h2 className="category-title"> Vyberte kategorii</h2>
+              <p className="turn-indicator">
+                Otázku vybírá: <strong>{playerNames[currentPlayer]}</strong>
+              </p>
               <div className="categories">
-                {categories.map(cat => {
+                {categories.map((cat, idx) => {
                   const finished = isCategoryFinished(cat);
+                  const answeredCount = answeredQuestions[cat]?.filter(val => val !== null).length || 0;
+                  const totalCount = questions[cat]?.length || 0;
+                  
                   return (
                     <div
                       key={cat}
-                      className={`category${finished ? ' finished-category' : ''}`}
+                      className={`category${finished ? ' finished-category' : ''} slide-in`}
+                      style={{animationDelay: `${idx * 0.1}s`}}
                       onClick={() => selectCategory(cat)}
-                      style={
-                        finished
-                          ? { background: '#dc3545', color: '#fff', textDecoration: 'line-through', cursor: 'not-allowed' }
-                          : {}
-                      }
                     >
-                      {cat}
+                      <div className="category-name">{cat}</div>
+                      <div className="category-progress">
+                        {answeredCount} / {totalCount}
+                      </div>
                     </div>
                   );
                 })}
               </div>
             </div>
           )}
+          
           {step === 2 && (
-            <div className="question-section">
-              <h2 className="question-title">{category} - Vyberte otázku</h2>
+            <div className="question-section fade-in">
+              <h2 className="question-title"> {category}</h2>
+              <p className="section-subtitle">Vyberte otázku</p>
               <div className="questions">
                 {questions[category].map((q, idx) => {
-                  const isAnswered = answeredQuestions[category]?.[idx] === true;
-                  const isPending = pendingQuestions[category]?.[idx] === true;
+                  const status = getQuestionStatus(category, idx);
+                  
                   return (
                     <button
                       key={idx}
-                      className={`button question-btn${isAnswered ? (answeredQuestions[category][idx] === true ? ' answered' : ' wrong') : ''}${isPending ? ' pending' : ''}`}
-                      onClick={() => (answeredQuestions[category]?.[idx] !== true) && selectQuestion(idx)}
-                      disabled={answeredQuestions[category]?.[idx] === true}
-                      style={
-                        answeredQuestions[category]?.[idx] === true
-                          ? { background: '#28a745', color: '#fff', border: '2px solid #218838' }
-                          : answeredQuestions[category]?.[idx] === false
-                            ? { background: '#232526', color: '#fff', border: '2px solid #232526' }
-                            : isPending
-                              ? { background: '#ffc107', color: '#343a40', border: '2px solid #ffcd39' }
-                              : {}
-                      }
+                      className={`question-btn status-${status} pop-in`}
+                      style={{animationDelay: `${idx * 0.05}s`}}
+                      onClick={() => selectQuestion(idx)}
+                      disabled={status === 'correct' || status === 'wrong'}
                     >
-                      Otázka {idx+1}
+                      <span className="question-number">#{idx+1}</span>
+                      {status === 'correct' && <span className="status-icon">✓</span>}
+                      {status === 'wrong' && <span className="status-icon">✗</span>}
+                      {status === 'pending' && <span className="status-icon">⏳</span>}
                     </button>
                   );
                 })}
               </div>
+              <button className="button button-back" onClick={() => setStep(1)}>
+                ← Zpět na kategorie
+              </button>
             </div>
           )}
+          
           {step === 3 && (
-            <div className="active-question-section">
-              <h2 className="active-question-title">{category} - Otázka {questionIdx+1}</h2>
-              <div className="question-text">{questions[category][questionIdx]}</div>
-              <div className="timer">Čas: {timeLeft} s</div>
-              <div className="current-player">Na řadě: <span>{playerNames[currentPlayer]}</span></div>
-              <div className="answer-btns">
-                <button className="button" style={{background:'#28a745'}} onClick={() => handleAnswer(true)}>Správně</button>
-                <button className="button" style={{background:'#dc3545'}} onClick={() => handleAnswer(false)}>Špatně</button>
+            <div className="active-question-section fade-in">
+              <div className="question-header">
+                <span className="question-category">📌 {category}</span>
+                <span className="question-badge">Otázka #{questionIdx+1}</span>
               </div>
+              
+              <div className="question-text">{questions[category][questionIdx]}</div>
+              
+              <div className={`timer ${timeLeft <= 10 ? 'timer-warning' : ''} ${timeLeft <= 5 ? 'timer-danger' : ''}`}>
+                <div className="timer-icon">⏱️</div>
+                <div className="timer-value">{timeLeft}s</div>
+              </div>
+              
+              <div className="current-player-card">
+                <div className="current-player-label">Na řadě:</div>
+                <div className="current-player-name">{playerNames[currentPlayer]}</div>
+              </div>
+              
+              {showFeedback ? (
+                <div className={`feedback ${lastAnswerCorrect ? 'feedback-correct' : 'feedback-wrong'}`}>
+                  <div className="feedback-icon">
+                    {lastAnswerCorrect ? '🎉' : '😔'}
+                  </div>
+                  <div className="feedback-text">
+                    {lastAnswerCorrect ? 'Správně!' : 'Špatně!'}
+                  </div>
+                </div>
+              ) : (
+                <div className="answer-btns">
+                  <button className="button button-correct" onClick={() => handleAnswer(true)}>
+                    ✓ Správně
+                  </button>
+                  <button className="button button-wrong" onClick={() => handleAnswer(false)}>
+                    ✗ Špatně
+                  </button>
+                </div>
+              )}
             </div>
           )}
         </>
       )}
     </div>
   );
+}
 
 function FinalResults({ names, scores }) {
-  // Seřadit hráče podle bodů (od nejvyššího)
   const sorted = names.map((n, i) => ({ name: n, score: scores[i] })).sort((a, b) => b.score - a.score);
+  const maxScore = sorted[0]?.score || 0;
+  
+  const getMedal = (position) => {
+    if (position === 0) return '🥇';
+    if (position === 1) return '🥈';
+    if (position === 2) return '🥉';
+    return '🏅';
+  };
+  
   return (
-    <div className="final-results">
-      <h2 className="final-title">Konečné pořadí hráčů</h2>
+    <div className="final-results fade-in">
+      <h2 className="final-title">🏆 Konečné výsledky 🏆</h2>
       <div className="final-list">
         {sorted.map((p, i) => (
-          <div key={i} className="final-player">
+          <div key={i} className={`final-player pop-in ${i === 0 ? 'winner' : ''}`} style={{animationDelay: `${i * 0.15}s`}}>
+            <span className="final-medal">{getMedal(i)}</span>
             <span className="final-rank">{i+1}.</span>
             <span className="final-name">{p.name}</span>
-            <span className="final-score">{p.score} bodů</span>
+            <span className="final-score">
+              {p.score} {p.score === 1 ? 'bod' : p.score < 5 ? 'body' : 'bodů'}
+            </span>
+            <div className="score-bar">
+              <div 
+                className="score-bar-fill" 
+                style={{ width: `${maxScore > 0 ? (p.score / maxScore) * 100 : 0}%` }}
+              />
+            </div>
           </div>
         ))}
       </div>
+      <button className="button button-large" onClick={() => window.location.reload()}>
+         NOVÁ HRA
+      </button>
     </div>
   );
 }
-}
-
 
 function PlayerOverview({ names, scores, current }) {
   return (
     <div className="player-overview">
-      <h3>Přehled všech hráčů</h3>
+      <h3 className="overview-title">Přehled všech našich hráčů</h3>
       <div className="player-list">
         {names.map((n, i) => (
           <div key={i} className={`player-item${i === current ? ' active-player' : ''}`}>
-            <span className="player-name">{n}</span>
-            <span className="player-score">{scores[i]} bodů</span>
-            {i === current && <span className="player-turn"></span>}
+            <div className="player-info">
+              <span className="player-name">{n}</span>
+              <span className="player-score"> {scores[i]}</span>
+            </div>
+            {i === current && (
+              <div className="player-indicator">
+                <span className="indicator-arrow"></span>
+              </div>
+            )}
           </div>
         ))}
       </div>
