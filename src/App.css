@@ -1,0 +1,335 @@
+/* === ZÁKLADNÍ STYLY === */
+body {
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background: linear-gradient(135deg, #232526 0%, #414345 100%);
+  margin: 0;
+  padding: 0;
+}
+
+#root, .quiz-app {
+  max-width: 700px;
+  margin: 40px auto;
+  background: #1a1a1a;
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+  border: 2px solid #ffc107;
+  padding: 32px 24px 24px 24px;
+  text-align: center;
+}
+
+/* === NADPISY === */
+.main-title {
+  font-size: 3em;
+  font-weight: bold;
+  color: #ffc107;
+  margin-bottom: 24px;
+  letter-spacing: 2px;
+  text-shadow: 2px 2px 16px rgba(0, 0, 0, 0.8), 0 0 32px rgba(255, 193, 7, 0.4);
+}
+
+.setup-title, .category-title, .question-title, .final-title {
+  font-size: 2em;
+  color: #ffc107;
+  margin-bottom: 16px;
+  text-shadow: 1px 1px 8px rgba(0, 0, 0, 0.6);
+}
+
+.active-question-title {
+  font-size: 2em;
+  color: #fff200;
+  margin-bottom: 16px;
+  text-shadow: 1px 1px 8px rgba(0, 0, 0, 0.6);
+}
+
+/* === SEKCE === */
+.setup-section, .category-section, .question-section, .active-question-section {
+  background: #232526;
+  border-radius: 16px;
+  box-shadow: 0 4px 24px rgba(255, 193, 7, 0.3);
+  padding: 24px;
+  margin-bottom: 24px;
+  color: #ffc107;
+}
+
+/* === TLAČÍTKA === */
+.button {
+  background: #ffc107;
+  color: #232526;
+  border: none;
+  padding: 12px 28px;
+  border-radius: 6px;
+  cursor: pointer;
+  margin: 8px 0;
+  font-size: 1.1em;
+  font-weight: 600;
+  box-shadow: 0 2px 8px rgba(255, 193, 7, 0.4);
+  transition: background 0.3s, box-shadow 0.3s, transform 0.2s;
+}
+
+.button:hover {
+  background: #ffcd39;
+  box-shadow: 0 4px 16px rgba(255, 193, 7, 0.6);
+  transform: translateY(-2px);
+}
+
+.button:disabled {
+  background: #555;
+  color: #999;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+/* === KATEGORIE === */
+.category {
+  margin: 8px 0;
+  padding: 16px;
+  background: #ffc107;
+  color: #232526;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1.2em;
+  font-weight: 600;
+  box-shadow: 0 2px 8px rgba(255, 193, 7, 0.3);
+  transition: background 0.3s, box-shadow 0.3s, transform 0.2s;
+}
+
+.category:hover {
+  background: #ffcd39;
+  box-shadow: 0 4px 16px rgba(255, 193, 7, 0.5);
+  transform: translateY(-2px);
+}
+
+.finished-category {
+  background: #dc3545 !important;
+  color: #fff !important;
+  text-decoration: line-through;
+  cursor: not-allowed !important;
+  opacity: 0.6;
+}
+
+/* === OTÁZKY - TLAČÍTKA === */
+.questions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+
+.question-btn {
+  padding: 10px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1em;
+  font-weight: 500;
+  transition: all 0.3s;
+  border: 2px solid transparent;
+}
+
+.question-btn.pending {
+  background: #fff200;
+  color: #232526;
+  border: 2px solid #ffc107;
+  box-shadow: 0 2px 8px rgba(255, 242, 0, 0.5);
+  font-weight: 600;
+}
+
+.question-btn.answered {
+  background: #28a745;
+  color: #fff;
+  border: 2px solid #218838;
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.question-btn.wrong {
+  background: #dc3545;
+  color: #fff;
+  border: 2px solid #c82333;
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+/* === TEXT OTÁZKY === */
+.question-text {
+  font-size: 1.4em;
+  margin: 20px 0;
+  color: #ffc107;
+  font-weight: 500;
+}
+
+/* === ODPOVĚDI === */
+.answer-btns {
+  margin: 32px 0 0 0;
+  display: flex;
+  gap: 32px;
+  justify-content: center;
+}
+
+/* === ČASOVAČ === */
+.timer {
+  font-size: 2.2em;
+  margin: 16px 0;
+  color: #dc3545;
+  font-weight: bold;
+  letter-spacing: 2px;
+  text-shadow: 0 0 10px rgba(220, 53, 69, 0.5);
+}
+
+/* === HRÁČI - PŘEHLED === */
+.player-overview {
+  margin-bottom: 24px;
+  background: #2a2a2a;
+  border-radius: 8px;
+  padding: 16px;
+  box-shadow: 0 2px 8px rgba(255, 193, 7, 0.2);
+}
+
+.player-list {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.player-item {
+  background: #1a1a1a;
+  border: 1px solid #444;
+  border-radius: 6px;
+  padding: 10px 18px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  font-size: 1.1em;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #ffc107;
+  transition: all 0.3s;
+}
+
+.active-player {
+  border: 2px solid #fff200;
+  background: linear-gradient(90deg, #ffc107 0%, #232526 100%);
+  box-shadow: 0 4px 16px rgba(255, 193, 7, 0.5);
+  font-weight: bold;
+}
+
+.active-player .player-name {
+  color: #232526;
+}
+
+.active-player .player-score {
+  color: #232526;
+  font-weight: 700;
+}
+
+.player-name {
+  font-weight: bold;
+  color: #ffc107;
+}
+
+.player-score {
+  color: #fff200;
+  font-weight: 600;
+}
+
+.player-turn {
+  color: #232526;
+  font-weight: bold;
+  margin-left: 6px;
+}
+
+/* === INPUT PRO HRÁČE === */
+.player-input {
+  margin-bottom: 8px;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.player-input label {
+  min-width: 120px;
+  font-weight: 500;
+  color: #ffc107;
+}
+
+.player-input input {
+  padding: 8px 12px;
+  border-radius: 4px;
+  border: 1px solid #ffc107;
+  background: #1a1a1a;
+  color: #ffc107;
+  font-size: 1em;
+}
+
+.player-input input:focus {
+  outline: none;
+  border-color: #fff200;
+  box-shadow: 0 0 8px rgba(255, 193, 7, 0.3);
+}
+
+/* === SCOREBOARD === */
+.scoreboard {
+  margin-top: 24px;
+  background: #2a2a2a;
+  padding: 12px;
+  border-radius: 8px;
+  text-align: left;
+  box-shadow: 0 2px 8px rgba(255, 193, 7, 0.2);
+  color: #ffc107;
+}
+
+/* === FINÁLNÍ VÝSLEDKY === */
+.final-results {
+  background: #232526;
+  border-radius: 16px;
+  box-shadow: 0 4px 24px rgba(255, 193, 7, 0.3);
+  padding: 32px;
+  margin-top: 32px;
+}
+
+.final-title {
+  font-size: 2.2em;
+  color: #ffc107;
+  margin-bottom: 24px;
+  text-shadow: 1px 1px 8px rgba(0, 0, 0, 0.6);
+}
+
+.final-list {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  align-items: center;
+}
+
+.final-player {
+  font-size: 1.3em;
+  background: #2a2a2a;
+  border: 1px solid #ffc107;
+  border-radius: 8px;
+  padding: 12px 32px;
+  box-shadow: 0 2px 8px rgba(255, 193, 7, 0.3);
+  display: flex;
+  gap: 18px;
+  align-items: center;
+  min-width: 320px;
+  justify-content: flex-start;
+}
+
+.final-rank {
+  font-weight: bold;
+  color: #fff200;
+  font-size: 1.3em;
+}
+
+.final-name {
+  font-weight: bold;
+  color: #ffc107;
+  font-size: 1.2em;
+}
+
+.final-score {
+  color: #28a745;
+  font-weight: 600;
+  font-size: 1.1em;
+}
