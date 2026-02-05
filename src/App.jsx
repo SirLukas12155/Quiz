@@ -5,10 +5,10 @@ import './App.css';
 const categories = [
   'Historie',
   'Věda',
-  'Zeměpis',
-  'Bizár CZ/SK',
+  'Geografie',
+  'Sport a volný čas',
   'Příroda',
-  'Potřebuju body',
+  'Kultura a film',
   // Přidejte další kategorie...
 ];
 
@@ -17,19 +17,19 @@ const questions = {
   'Historie': [
     'Kdy byla bitva na Bílé hoře?',
     'Kdo byl první prezident ČSR?',
-    'Ve kterém roce začala 2. světová válka?',
+    'První český král?',
     'Kdo byl poslední český král?',
     'Kdo byl poslední korunovaný český král?',
     'Kdo byl první český král?',
     'Mezi jakými roky proběhla 1. světová válka?',
     'Mezi jakými roky proběhla 2. světová válka?',
     'Kdo byl zavražděn v Sarajevu roku 1914?',
-    'Jak se jmenoval německý generál zvaný „Pouštní liška“?',
+    'Komu náležela přezdívka pouštní liška?',
     'Kdo byl nejdéle vládnoucím králem v historii Evropy?',
     'Jak se jmenoval poslední absolutistický vládce Japonska?',
     'Kdy vznikla první Československá republika?',
     'Co je to Zlatá bula sicilská a kdy byla vydána?',
-    'Kdo měl přezdívku „Noční můra Evropy“?',
+    'Co to byl Německý spolek?',
     'Jak se jmenoval poslední císař Francie?',
     'Kdy vzniklo Německo?',
     'Kdy vznikla Itálie?',
@@ -37,7 +37,7 @@ const questions = {
     'Který stát sjednotil Itálii?',
     'Co byla rekonkvista?',
     'Kdo byl nejdéle vládnoucím českým králem?',
-    'Který politik chtěl, aby bylo Československo monarchií s ruským carem v čele?',
+    'Nejdéle vládnoucí dynastie v Česku?',
     'Kdo byl poslední ruský car?',
     'Jak se jmenovaly série válek které Čínu uvedlo vobdobí zvané "století ponížení"?',
 
@@ -66,13 +66,13 @@ const questions = {
     'Kolik planet má sluneční soustava?',
     'Která planeta je nejblíže Slunci?',
     'Co je to DNA?',
-    'Jak vyrobím louč?',
+    'Kdo jako první použil pojem radioaktivita?',
     'Co je to mykologie?',
     'Co se málo ví o Teslovi?',
     
   ],
 
-  'Zeměpis': [
+  'Geografie': [
     'Nejvyšší hora ČR',
     'Hlavní město Estonska',
     'Hlavní město Islandu',
@@ -97,44 +97,43 @@ const questions = {
     'Ke se Baskicko nachází?',
     'Jakými jazyky se mluví ve Švýcarsku?',
     'Jakými jazyky se mluví v Belgii?',
-    'Úřední jazyk Vatikánu?',
+    'Dokážeš vymenovat tři národy bez státu?',
     
   ],
 
-  'Bizár CZ/SK': [
-    'Co Václav Klaus označil jako "levičácký dopravní prostředek"?',
-    'Jak zněla celá hláška dnes známá jako flákanec politika Lubomíra Volného?',
-    'Jak se přezdívalo Václavu Klausovi po pokusu ukrást pero osázené diamanty?',
-    'Jak nazvala Jana Maláčová otázku "jak na to vezmeme"?',
-    'Jak se jmenovala žena, která uvízla pod kořenem celým jménem?',
-    'Kdo prohlásil větu "Pořád jste sympatičtější než Jirka Paroubek"?',
-    'Kdo v televizní debatě ztratil botu?',
-    'Jak pokračuje věta "já mám právo..."?',
-    'Jaké bylo jméno komunistky, které to bohužel nestačilo?',
-    'Jak se jmenuje píseň, na kterou tancoval Andrej Babiš po výhře ve volbách 2025?',
-    'Jak zněla odpověď Andreje Babiše na otázku "Kde jste ty peníze vzal"?',
-    'Jak se jmenoval politik, který ve sněmovně prohlásil "Cikáni by měli být trestně odpovědní už od narození..."?',
-    'Odkud pochází hláška "Jste si to vymačkal, vás zbiju ještě"?',
-    'Komu koupili přátelé k Vánocům mobil Aligátor?',
-    'Jak se jmenovala žena, kterou málem srazili cyklisti?',
-    'Žena si myslela, že je reinkarnací koho?',
-    'Kdo je autorem slov "hodně budeš někde"?',
-    'Který politik lhal o tom, že jede na dálnici v Německu, ale jel v Česku?',
-    'Který slovenský politik, aby ukázal sílu, rozstřílel ve videu televizor brokovnicí?',
-    'Jaký nástroj využívá pan Cibulka k identifikaci agentů KGB a GRU?',
-    'Jaké dva tajné spolky ovládají naši společnost a vidí to jen jeden vyvolený muž?',
-    'Jak reagoval pan Cibulka, když mu pan Paroubek skákal do řeči?',
-    'Kam jsem dal řetízek?',
-    'Jak moc je svarovy?',
-    'Co se spívá v písničce od řezníka "Každej komouš"?',
+  'Sport a volný čas': [
+    'Kolik hráčů má fotbalové mužstvo na hřišti?',
+    'Jak se nazývá nejvyšší česká fotbalová soutěž?',
+    'Kolik bodů dostane tým za výhru v hokeji?',
+    'Kolik kilometrů je délka maratónu?',
+    'Jak dlouho trvá jedna hokejová třetina?',
+    'Kolik hráčů má basketbalové mužstvo na hřišti?',
+    'První olympijské hry se konaly v jakém roce?',
+    'Jaký je nejznámější český fotbalový klub?',
+    'Kterému sportu se říká "královský sport"?',
+    'Tři nejpopulárnější sporty na světě?',
+    'Kolik figur má každý hráč v šachách na začátku?',
+    'Kde se konaly první moderní olympijské hry?',
+    'Jaký fotbalový klub hraje tradičně v "Edenu"?',
+    'Jakou barvu má standardní tenisový míček?',
+    'Kolik hráčů má volejbalové mužstvo na hřišti?',
+    'Jedno české město, které hostilo slavný sportovní závod?',
+    'Kdo je nejznámější český cyklista?',
+    'Jak dlouho trvá basketbalový zápas?',
+    'Kolik kol má Tour de France?',
+    'Jaký sport je nejpopulárnější v České republice?',
+    'Kolik hokejistů je v jednom mužstvu?',
+    'Jak se jmenuje hrací plocha v tenise?',
+    'Tři sporty ze zimních olympijských her?',
+    'Kolik minut trvá normální fotbalový zápas?',
+    'V jakém sportu se používá největší míč?',
   ],
 
   'Příroda': [
     'Jaký je největší savec na Zemi?',
     'Jaký je nejrychlejší suchozemský živočich?',
-    'Které zvíře je symbolem Austrálie?',
     'Jaký pták neumí létat, ale umí plavat?',
-    'Jaké zvíře je považováno za nejchytřejší savce po člověku?',
+    'Jaké zvíře je považováno za nejchytřejší, hned po člověku?',
     'Která rostlina je největší na světě?',
     'Jak se nazývá proces, při kterém se housenka mění v motýla?',
     'Které zvíře má nejdelší život?',
@@ -152,52 +151,39 @@ const questions = {
     'Jak se nazývá proces, kdy stromy na podzim shazují listy?',
     'Jaký je největší druh medvěda na světě?',
     'Kolik nohou má stonožka?',
-    'Když budeš žrát sirové maso dostaneš?',
+    'Který pták je největší na světě?',
     'Co je to fotosyntéza?',
     'Co je to depresní kužel?',
+    'Jedno, dnes již vyhynulé zvíře?',
 
   ],
 
-  'Potřebuju body': [
-    'Máš radši kočky nebo psy?',
-    'Máš radši kávu nebo čaj?',
-    'Která kniha tě nejvíc ovlivnila?',
-    'Nejvíc ZALOŽNÁ země dnes?',
-    'Jak vyřešit blízký východ?',
-    'Máš alobalovou čepici?',
-    'Řekni mi upřímně, proč ne?',
-    'Názor na černochy?',
-    'Kolik mám nohou?',
-    'Kolik má noha židlí?',
-    'Je Luko psychopat?',
-    'Nejlepší forma vlády',
-    'Skákal pes přes oves...',
-    'Skákal pes přes oves?',
-    'Co si myslím o EU?',
-    'Kdo nebo co je to Enďucha?',
-    'Jak porazit Ondřeje v debatě?',
-    'Proč je Ondřej tak tvrdohlavej?',
-    'Má Luko HIV?',
-    'Přistáli jsme na měsíci?',
-    'Byli jsme a budem! kdo je autorem této věty?',
-    'Jak se jmenuje hlavní město Francie?',
-    'Kdo napsal knihu "1984"?',
-    'Kdo namaloval "Mona Lisu"?',
-    'Kdo napsal "Hamleta"?',
-
-
-    
-
-
-
-
-
-
-
-
-
-
-
+  'Kultura a film': [
+    'Kdo je režisérem filmu "Pulp Fiction"?',
+    'Jak se jmenuje nejznámější Hitchcockův film?',
+    'Kolik Oscarů vyhrál film "Titanic"?',
+    'Kdo napsal román "Zvoditel"?',
+    'Jaké je nejznámější dílo Davida Bowieho?',
+    'Jak se jmenuje nejznámější Pixarův film?',
+    'Kdo režíroval "Avatar"?',
+    'Jak se nazývá nejstarší filmový festival v Česku?',
+    'Kdo je největší českou operní hvězdou?',
+    'Které české město je centrum vysoké kultury?',
+    'Kdo napsal "Krtek a jeho svět"?',
+    'Jak se jmenuje nejznámější české divadlo?',
+    'Kdo komponoval skladbu "Vltava"?',
+    'Jaký je nejznámější český film všech dob?',
+    'Kdo maloval "Noční můru"?',
+    'Jak se jmenuje nejstarší knihovna v Česku?',
+    'Kdo je nejznámějším českým režisérem?',
+    'Jaký je nejznámější český román?',
+    'Kolik Oscarů vyhrál "Amadeus"?',
+    'Kdo je tvůrcem filmů "Hvězdné války"?',
+    'Jak se jmenuje nejznámější české muzeum?',
+    'Jakou cenu vyhrál film "Obecná škola"?',
+    'Kdo režíroval "Americkou krásu"?',
+    'Jaké je nejznámější české literární dílo?',
+    'Nejlépe placený herec roku 2022?',
   ],
 
 };
@@ -217,6 +203,57 @@ function App() {
   const [gameFinished, setGameFinished] = useState(false);
   const [showFeedback, setShowFeedback] = useState(false);
   const [lastAnswerCorrect, setLastAnswerCorrect] = useState(null);
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [confirmDialog, setConfirmDialog] = useState(null);
+
+  // Načtení stavu z localStorage při startu
+  useEffect(() => {
+    const savedState = localStorage.getItem('quizState');
+    if (savedState) {
+      try {
+        const state = JSON.parse(savedState);
+        setStep(state.step || 0);
+        setPlayerCount(state.playerCount || 2);
+        setPlayerNames(state.playerNames || ['Hráč 1', 'Hráč 2']);
+        setScores(state.scores || [0, 0]);
+        setCurrentPlayer(state.currentPlayer || 0);
+        setCategory(state.category || null);
+        setQuestionIdx(state.questionIdx || null);
+        setTimeLeft(state.timeLeft || 30);
+        setAnsweredQuestions(state.answeredQuestions || {});
+        setPendingQuestions(state.pendingQuestions || {});
+        setGameFinished(state.gameFinished || false);
+        setShowFeedback(state.showFeedback || false);
+        setLastAnswerCorrect(state.lastAnswerCorrect || null);
+      } catch (e) {
+        console.error('Chyba při načítání stavu z localStorage:', e);
+      }
+    }
+    setIsLoaded(true);
+  }, []);
+
+  // Ukládání stavu do localStorage
+  useEffect(() => {
+    if (!isLoaded) return; // Nebude ukládat, dokud se stav nenačte z localStorage
+    
+    const state = {
+      step,
+      playerCount,
+      playerNames,
+      scores,
+      currentPlayer,
+      category,
+      questionIdx,
+      timeLeft,
+      answeredQuestions,
+      pendingQuestions,
+      gameFinished,
+      showFeedback,
+      lastAnswerCorrect,
+    };
+    
+    localStorage.setItem('quizState', JSON.stringify(state));
+  }, [isLoaded, step, playerCount, playerNames, scores, currentPlayer, category, questionIdx, timeLeft, answeredQuestions, pendingQuestions, gameFinished, showFeedback, lastAnswerCorrect]);
 
   // Cleanup časovače
   useEffect(() => {
@@ -332,6 +369,11 @@ function App() {
     return answeredQuestions[cat].every(val => val !== null);
   }
 
+  const resetGame = () => {
+    localStorage.removeItem('quizState');
+    window.location.reload();
+  };
+
   const getQuestionStatus = (cat, idx) => {
     const answered = answeredQuestions[cat]?.[idx];
     const pending = pendingQuestions[cat]?.[idx];
@@ -379,7 +421,7 @@ function App() {
       )}
       
       {gameFinished ? (
-        <FinalResults names={playerNames} scores={scores} />
+        <FinalResults names={playerNames} scores={scores} setConfirmDialog={setConfirmDialog} />
       ) : (
         <>
           {step === 0 && (
@@ -412,6 +454,9 @@ function App() {
               <button className="button button-large" onClick={confirmPlayers}>
                 ZAČÍT HRU
               </button>
+              <button className="button button-corner" onClick={() => setConfirmDialog({ type: 'newGame', location: 'setup' })}>
+                Obnovit
+              </button>
             </div>
           )}
           
@@ -441,6 +486,14 @@ function App() {
                     </div>
                   );
                 })}
+              </div>
+              <div className="category-actions">
+                <button className="button button-corner" onClick={() => setConfirmDialog({ type: 'newGame', location: 'game' })}>
+                  Nová hra
+                </button>
+                <button className="button button-corner" onClick={() => setConfirmDialog({ type: 'endGame' })}>
+                  Ukončit hru
+                </button>
               </div>
             </div>
           )}
@@ -517,11 +570,27 @@ function App() {
           )}
         </>
       )}
+      
+      {confirmDialog && (
+        <ConfirmDialog 
+          dialog={confirmDialog} 
+          onConfirm={() => {
+            if (confirmDialog.type === 'newGame') {
+              localStorage.removeItem('quizState');
+              window.location.reload();
+            } else if (confirmDialog.type === 'endGame') {
+              setGameFinished(true);
+              setConfirmDialog(null);
+            }
+          }}
+          onCancel={() => setConfirmDialog(null)}
+        />
+      )}
     </div>
   );
 }
 
-function FinalResults({ names, scores }) {
+function FinalResults({ names, scores, setConfirmDialog }) {
   const sorted = names.map((n, i) => ({ name: n, score: scores[i] })).sort((a, b) => b.score - a.score);
   const maxScore = sorted[0]?.score || 0;
   
@@ -553,8 +622,8 @@ function FinalResults({ names, scores }) {
           </div>
         ))}
       </div>
-      <button className="button button-large" onClick={() => window.location.reload()}>
-         NOVÁ HRA
+      <button className="button button-large" onClick={() => setConfirmDialog({ type: 'newGame', location: 'results' })}>
+        Nová hra
       </button>
     </div>
   );
@@ -578,6 +647,43 @@ function PlayerOverview({ names, scores, current }) {
             )}
           </div>
         ))}
+      </div>
+    </div>
+  );
+}
+
+function ConfirmDialog({ dialog, onConfirm, onCancel }) {
+  const getMessage = () => {
+    if (dialog.type === 'newGame') {
+      return 'Opravdu chcete začít novou hru? Všechny pokroky budou smazány.';
+    } else if (dialog.type === 'endGame') {
+      return 'Opravdu chcete ukončit hru? Zobrazí se finální výsledky.';
+    }
+    return '';
+  };
+
+  const getTitle = () => {
+    if (dialog.type === 'newGame') {
+      return 'Nová hra';
+    } else if (dialog.type === 'endGame') {
+      return 'Ukončit hru';
+    }
+    return 'Potvrzení';
+  };
+
+  return (
+    <div className="confirm-overlay">
+      <div className="confirm-dialog">
+        <h3 className="confirm-title">{getTitle()}</h3>
+        <p className="confirm-message">{getMessage()}</p>
+        <div className="confirm-buttons">
+          <button className="button confirm-cancel" onClick={onCancel}>
+            ✕ Zrušit
+          </button>
+          <button className="button confirm-ok" onClick={onConfirm}>
+            ✓ Potvrdit
+          </button>
+        </div>
       </div>
     </div>
   );

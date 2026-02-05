@@ -347,6 +347,57 @@ body {
   transform: scale(1.05);
 }
 
+.button-finish {
+  background: #f59e0b;
+  color: white;
+  width: 100%;
+  margin-top: 15px;
+}
+
+.button-finish:hover {
+  background: #d97706;
+  transform: translateY(-2px);
+}
+
+.button-corner {
+  position: fixed;
+  padding: 10px 16px;
+  font-size: 0.85rem;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  z-index: 100;
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+  right: 20px;
+}
+
+.button-corner:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(102, 126, 234, 0.4);
+}
+
+.category-actions .button-corner:first-child {
+  bottom: 20px;
+}
+
+.category-actions .button-corner:last-child {
+  bottom: 70px;
+}
+
+.category-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 0;
+}
+
+.category-actions .button-back {
+  margin-top: 0;
+}
+
 /* Kategorie */
 .category-section {
   background: white;
@@ -788,4 +839,84 @@ body {
   .question-badge {
     text-align: center;
   }
+}
+
+/* Confirm Dialog */
+.confirm-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  animation: fadeIn 0.3s ease-out;
+}
+
+.confirm-dialog {
+  background: white;
+  border-radius: 20px;
+  padding: 40px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  max-width: 400px;
+  width: 90%;
+  animation: popIn 0.3s ease-out;
+}
+
+.confirm-title {
+  font-size: 1.5rem;
+  color: #333;
+  margin-bottom: 15px;
+  text-align: center;
+  font-weight: 700;
+}
+
+.confirm-message {
+  font-size: 1rem;
+  color: #666;
+  text-align: center;
+  margin-bottom: 30px;
+  line-height: 1.6;
+}
+
+.confirm-buttons {
+  display: flex;
+  gap: 15px;
+}
+
+.confirm-cancel,
+.confirm-ok {
+  flex: 1;
+  padding: 12px 20px;
+  font-size: 1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.confirm-cancel {
+  background: #e5e7eb;
+  color: #333;
+}
+
+.confirm-cancel:hover {
+  background: #d1d5db;
+  transform: translateY(-2px);
+}
+
+.confirm-ok {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: white;
+}
+
+.confirm-ok:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
 }
