@@ -1,6 +1,8 @@
 import { useState, useRef, useEffect } from 'react';
 import './App.css';
 
+const QUESTION_LIMIT_PER_CATEGORY = 20;
+
 // === ZDE UPRAVUJETE KATEGORIE ===
 const categories = [
   'Historie',
@@ -15,6 +17,10 @@ const categories = [
 // === ZDE ZADÁVÁTE OTÁZKY KE KATEGORIÍM ===
 const questions = {
   'Historie': [
+    'jaký politický směr/ideologie propagoval František Palacký?',
+    'Kdo byl posledním Československým prezidentem?',
+    'Mezi jakými lety probíhala Štěpánská občanská válka?',
+    'Mezi jakými roky probíhala husitská revoluce?',
     'Kdy byla bitva na Bílé hoře?',
     'Kdo byl první prezident ČSR?',
     'První český král?',
@@ -68,11 +74,14 @@ const questions = {
     'Co je to DNA?',
     'Kdo jako první použil pojem radioaktivita?',
     'Co je to mykologie?',
-    'Co se málo ví o Teslovi?',
+    'Kdo to byl Nikola Tesla?',
     
   ],
 
   'Geografie': [
+    'Kdo je hlavou státu USA?',
+    'Jaké politické zřízení má Austrálie?',
+    'Kdo je hlavou státu Kanady?',
     'Nejvyšší hora ČR',
     'Hlavní město Estonska',
     'Hlavní město Islandu',
@@ -159,7 +168,14 @@ const questions = {
   ],
 
   'Kultura a film': [
+    'jeden český obrozenec?',
+    'Jeden český spisovatel, který získal Nobelovu cenu za literaturu?',
+    'Kdo napsal "Babičku"?',
+    'Jedno dílo od Boženy Němcové?',
+    'Jak se jmenuje nejznámější román od Franze Kafky?',
+    'Dokonči větu: Jeden prsten vládne všem...',
     'Kdo je režisérem filmu "Pulp Fiction"?',
+    'Kdo hrál hlavní roli ve filmu "Forrest Gump"?',
     'Jak se jmenuje nejznámější Hitchcockův film?',
     'Kolik Oscarů vyhrál film "Titanic"?',
     'Kdo napsal román "Zvoditel"?',
@@ -170,10 +186,12 @@ const questions = {
     'Kdo je největší českou operní hvězdou?',
     'Které české město je centrum vysoké kultury?',
     'Kdo napsal "Krtek a jeho svět"?',
-    'Jak se jmenuje nejznámější české divadlo?',
+    'Kdo složil "Z nového světa"?',
+    'Vyjmenuj 3 české herece?',
     'Kdo komponoval skladbu "Vltava"?',
     'Jaký je nejznámější český film všech dob?',
-    'Kdo maloval "Noční můru"?',
+    'V jakém století žil Vincent van Gogh?',
+    'Kdo maloval "Monu Lisu "?',
     'Jak se jmenuje nejstarší knihovna v Česku?',
     'Kdo je nejznámějším českým režisérem?',
     'Jaký je nejznámější český román?',
@@ -186,6 +204,26 @@ const questions = {
     'Nejlépe placený herec roku 2022?',
   ],
 
+};
+
+const shuffleArray = (items) => {
+  const shuffled = [...items];
+  for (let i = shuffled.length - 1; i > 0; i -= 1) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+  return shuffled;
+};
+
+const createGameQuestions = () => {
+  const selectedQuestions = {};
+
+  categories.forEach((cat) => {
+    const categoryQuestions = questions[cat] || [];
+    selectedQuestions[cat] = shuffleArray(categoryQuestions).slice(0, QUESTION_LIMIT_PER_CATEGORY);
+  });
+
+  return selectedQuestions;
 };
 
 function App() {
@@ -205,6 +243,8 @@ function App() {
   const [lastAnswerCorrect, setLastAnswerCorrect] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
   const [confirmDialog, setConfirmDialog] = useState(null);
+  const [gameQuestions, setGameQuestions] = useState(() => createGameQuestions());
+  const [lastCategoryByPlayer, setLastCategoryByPlayer] = useState(() => Array(2).fill(null));
 
   // Načtení stavu z localStorage při startu
   useEffect(() => {
@@ -212,8 +252,9 @@ function App() {
     if (savedState) {
       try {
         const state = JSON.parse(savedState);
+        const loadedPlayerCount = state.playerCount || 2;
         setStep(state.step || 0);
-        setPlayerCount(state.playerCount || 2);
+        setPlayerCount(loadedPlayerCount);
         setPlayerNames(state.playerNames || ['Hráč 1', 'Hráč 2']);
         setScores(state.scores || [0, 0]);
         setCurrentPlayer(state.currentPlayer || 0);
@@ -225,6 +266,8 @@ function App() {
         setGameFinished(state.gameFinished || false);
         setShowFeedback(state.showFeedback || false);
         setLastAnswerCorrect(state.lastAnswerCorrect || null);
+        setGameQuestions(state.gameQuestions || createGameQuestions());
+        setLastCategoryByPlayer(state.lastCategoryByPlayer || Array(loadedPlayerCount).fill(state.lastCategory || null));
       } catch (e) {
         console.error('Chyba při načítání stavu z localStorage:', e);
       }
@@ -250,10 +293,12 @@ function App() {
       gameFinished,
       showFeedback,
       lastAnswerCorrect,
+      gameQuestions,
+      lastCategoryByPlayer,
     };
     
     localStorage.setItem('quizState', JSON.stringify(state));
-  }, [isLoaded, step, playerCount, playerNames, scores, currentPlayer, category, questionIdx, timeLeft, answeredQuestions, pendingQuestions, gameFinished, showFeedback, lastAnswerCorrect]);
+  }, [isLoaded, step, playerCount, playerNames, scores, currentPlayer, category, questionIdx, timeLeft, answeredQuestions, pendingQuestions, gameFinished, showFeedback, lastAnswerCorrect, gameQuestions, lastCategoryByPlayer]);
 
   // Cleanup časovače
   useEffect(() => {
@@ -267,6 +312,7 @@ function App() {
     setPlayerCount(count);
     setPlayerNames(Array(count).fill('').map((_, i) => playerNames[i] || `Hráč ${i+1}`));
     setScores(Array(count).fill(0).map((_, i) => scores[i] || 0));
+    setLastCategoryByPlayer(prev => Array(count).fill(null).map((_, i) => prev[i] ?? null));
   };
 
   const handlePlayerName = (idx, value) => {
@@ -276,26 +322,40 @@ function App() {
   };
 
   const confirmPlayers = () => {
+    const selectedQuestions = createGameQuestions();
     const initialAnswered = {};
     const initialPending = {};
     categories.forEach(cat => {
-      initialAnswered[cat] = Array(questions[cat]?.length || 0).fill(null);
-      initialPending[cat] = Array(questions[cat]?.length || 0).fill(false);
+      initialAnswered[cat] = Array(selectedQuestions[cat]?.length || 0).fill(null);
+      initialPending[cat] = Array(selectedQuestions[cat]?.length || 0).fill(false);
     });
+    setGameQuestions(selectedQuestions);
     setAnsweredQuestions(initialAnswered);
     setPendingQuestions(initialPending);
+    setLastCategoryByPlayer(Array(playerCount).fill(null));
     setStep(1);
   };
 
+  const hasAlternativeCategory = (blockedCategory) => {
+    return categories.some(cat => cat !== blockedCategory && !isCategoryFinished(cat));
+  };
+
+  const isCategoryBlockedByRepeatRule = (cat) => {
+    const playerLastCategory = lastCategoryByPlayer[currentPlayer];
+    if (!playerLastCategory) return false;
+    if (cat !== playerLastCategory) return false;
+    return hasAlternativeCategory(playerLastCategory);
+  };
+
   const selectCategory = (cat) => {
-    if (isCategoryFinished(cat)) return;
+    if (isCategoryFinished(cat) || isCategoryBlockedByRepeatRule(cat)) return;
     setCategory(cat);
     setStep(2);
     if (!answeredQuestions[cat]) {
-      setAnsweredQuestions(prev => ({ ...prev, [cat]: Array(questions[cat].length).fill(null) }));
+      setAnsweredQuestions(prev => ({ ...prev, [cat]: Array(gameQuestions[cat]?.length || 0).fill(null) }));
     }
     if (!pendingQuestions[cat]) {
-      setPendingQuestions(prev => ({ ...prev, [cat]: Array(questions[cat].length).fill(false) }));
+      setPendingQuestions(prev => ({ ...prev, [cat]: Array(gameQuestions[cat]?.length || 0).fill(false) }));
     }
   };
 
@@ -356,6 +416,11 @@ function App() {
     
     setTimeout(() => {
       setShowFeedback(false);
+      setLastCategoryByPlayer(prev => {
+        const updated = [...prev];
+        updated[currentPlayer] = category;
+        return updated;
+      });
       setCurrentPlayer((currentPlayer + 1) % playerNames.length);
       setStep(1);
       setCategory(null);
@@ -385,7 +450,7 @@ function App() {
   };
 
   const getTotalQuestions = () => {
-    return categories.reduce((sum, cat) => sum + (questions[cat]?.length || 0), 0);
+    return categories.reduce((sum, cat) => sum + (gameQuestions[cat]?.length || 0), 0);
   };
 
   const getAnsweredCount = () => {
@@ -469,13 +534,14 @@ function App() {
               <div className="categories">
                 {categories.map((cat, idx) => {
                   const finished = isCategoryFinished(cat);
+                  const blockedByRepeatRule = isCategoryBlockedByRepeatRule(cat);
                   const answeredCount = answeredQuestions[cat]?.filter(val => val !== null).length || 0;
-                  const totalCount = questions[cat]?.length || 0;
+                  const totalCount = gameQuestions[cat]?.length || 0;
                   
                   return (
                     <div
                       key={cat}
-                      className={`category${finished ? ' finished-category' : ''} slide-in`}
+                      className={`category${(finished || blockedByRepeatRule) ? ' finished-category' : ''} slide-in`}
                       style={{animationDelay: `${idx * 0.1}s`}}
                       onClick={() => selectCategory(cat)}
                     >
@@ -503,7 +569,7 @@ function App() {
               <h2 className="question-title"> {category}</h2>
               <p className="section-subtitle">Vyberte otázku</p>
               <div className="questions">
-                {questions[category].map((q, idx) => {
+                {(gameQuestions[category] || []).map((q, idx) => {
                   const status = getQuestionStatus(category, idx);
                   
                   return (
@@ -535,7 +601,7 @@ function App() {
                 <span className="question-badge">Otázka #{questionIdx+1}</span>
               </div>
               
-              <div className="question-text">{questions[category][questionIdx]}</div>
+              <div className="question-text">{gameQuestions[category]?.[questionIdx]}</div>
               
               <div className={`timer ${timeLeft <= 10 ? 'timer-warning' : ''} ${timeLeft <= 5 ? 'timer-danger' : ''}`}>
                 <div className="timer-icon">⏱️</div>
